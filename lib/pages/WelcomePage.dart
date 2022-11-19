@@ -40,7 +40,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   ImageProvider img() {
-    if (loggedIn.photoURL.toString().isNotEmpty) {
+    if (loggedIn.photoURL.toString() != "null") {
       return NetworkImage(loggedIn.photoURL.toString());
     } else {
       return const AssetImage('images/man.png');
@@ -90,8 +90,8 @@ class _WelcomePageState extends State<WelcomePage> {
               ],
             ),
             Text(
-              loggedIn.displayName.toString().isEmpty
-                  ? 'User'
+              loggedIn.displayName.toString() == "null"
+                  ? "user"
                   : loggedIn.displayName.toString(),
               style: GoogleFonts.barlow(
                 color: Colors.white,
