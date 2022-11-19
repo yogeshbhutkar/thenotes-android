@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:thenotes/pages/explorePage.dart';
 import 'package:thenotes/pages/search.dart';
 import 'package:thenotes/pages/WelcomePage.dart';
@@ -35,22 +36,26 @@ class _HomePageState extends State<HomePage> {
             _selectedIndex = index;
           });
         },
-        backgroundColor: Color.fromARGB(255, 20, 19, 19),
-        selectedItemColor: Color.fromARGB(255, 247, 11, 58),
+        backgroundColor: const Color.fromARGB(255, 20, 19, 19),
+        selectedItemColor: const Color.fromARGB(255, 247, 11, 58),
         unselectedItemColor: Colors.white,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
+            icon: Icon(_selectedIndex == 0
+                ? Iconsax.search_normal
+                : Iconsax.search_normal),
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(_selectedIndex == 1 ? Iconsax.home5 : Iconsax.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore_outlined),
+            icon: Icon(_selectedIndex == 2
+                ? Iconsax.flash_circle5
+                : Iconsax.flash_circle),
             label: 'Explore',
           ),
         ],

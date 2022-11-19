@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:thenotes/components/storageAPI.dart';
 
 import '../Screens/pdf_viewer_page.dart';
@@ -25,7 +26,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     getCurrentUser();
     super.initState();
-    futureFiles = FirebaseStorage.instance.ref('/').listAll();
+    futureFiles = FirebaseStorage.instance.ref('/global').listAll();
   }
 
   void getCurrentUser() {
@@ -131,28 +132,34 @@ class _WelcomePageState extends State<WelcomePage> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () async {
-                                    final url = fileName;
-                                    final file =
-                                        await FirebaseStorageAPI.loadFirebase(
-                                            url);
+                                    onTap: () async {
+                                      final url = fileName;
+                                      final file =
+                                          await FirebaseStorageAPI.loadFirebase(
+                                              url);
 
-                                    openPDF(context, file);
-                                  },
-                                  child: Image.asset(
-                                    'images/folder 1.png',
-                                    height: 50,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 24,
-                                ),
-                                Text(
-                                  file.name.length > 40
-                                      ? file.name.substring(0, 40)
-                                      : file.name,
-                                  style: const TextStyle(color: Colors.white),
-                                ),
+                                      openPDF(context, file);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          size: 40,
+                                          Iconsax.document5,
+                                          color:
+                                              Color.fromARGB(255, 247, 11, 58),
+                                        ),
+                                        const SizedBox(
+                                          width: 24,
+                                        ),
+                                        Text(
+                                          file.name.length > 40
+                                              ? file.name.substring(0, 40)
+                                              : file.name,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    )),
                               ],
                             ),
                           );
