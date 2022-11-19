@@ -10,6 +10,7 @@ import 'package:thenotes/components/storageAPI.dart';
 import '../Screens/pdf_viewer_page.dart';
 
 late User loggedIn;
+List recentlyOpened = [];
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -104,6 +105,18 @@ class _WelcomePageState extends State<WelcomePage> {
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.05),
               child: Text(
+                'Recently opened',
+                style: GoogleFonts.barlow(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              child: Text(
                 'Recently uploaded',
                 style: GoogleFonts.barlow(
                   color: Colors.white,
@@ -113,7 +126,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.27,
+              // height: MediaQuery.of(context).size.height * 0.27,
               child: StreamBuilder<ListResult>(
                 stream: futureFiles.asStream(),
                 builder: (context, snapshot) {
@@ -132,34 +145,37 @@ class _WelcomePageState extends State<WelcomePage> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                    onTap: () async {
-                                      final url = fileName;
-                                      final file =
-                                          await FirebaseStorageAPI.loadFirebase(
-                                              url);
+                                  onTap: () async {
+                                    final url = fileName;
+                                    final file =
+                                        await FirebaseStorageAPI.loadFirebase(
+                                            url);
 
-                                      openPDF(context, file);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          size: 40,
-                                          Iconsax.document5,
-                                          color:
-                                              Color.fromARGB(255, 247, 11, 58),
-                                        ),
-                                        const SizedBox(
-                                          width: 24,
-                                        ),
-                                        Text(
-                                          file.name.length > 40
-                                              ? file.name.substring(0, 40)
-                                              : file.name,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    )),
+                                    openPDF(context, file);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        size: 40,
+                                        Iconsax.document5,
+                                        color: Color.fromARGB(255, 247, 11, 58),
+                                      ),
+                                      const SizedBox(
+                                        width: 24,
+                                      ),
+                                      Text(
+                                        file.name.length > 40
+                                            ? file.name.substring(0, 40)
+                                            : file.name,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 24,
+                                ),
                               ],
                             ),
                           );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:thenotes/pages/explorePage.dart';
+import 'package:thenotes/pages/explore_page.dart';
 import 'package:thenotes/pages/search.dart';
-import 'package:thenotes/pages/WelcomePage.dart';
+import 'package:thenotes/pages/welcome_page.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "Homepage";
@@ -59,6 +59,13 @@ class _HomePageState extends State<HomePage> {
             label: 'Explore',
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        backgroundColor: Color.fromARGB(255, 247, 11, 58),
+        onPressed: () {
+          Navigator.pushNamed(context, 'Upload');
+        },
       ),
     );
   }
