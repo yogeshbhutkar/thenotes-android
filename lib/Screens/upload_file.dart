@@ -25,9 +25,6 @@ class _AddFileState extends State<AddFile> {
   bool showLoading = false;
 
   Future<void> uploadFile(String storagePath, PlatformFile storageFile) async {
-    setState(() {
-      showLoading = true;
-    });
     final file = File(storageFile.path!);
     uploadTask = storageRef.child(storagePath).putFile(file);
     await uploadTask.whenComplete(() {});
@@ -51,6 +48,7 @@ class _AddFileState extends State<AddFile> {
       'title': 'global/$title',
     }).then((value) async {
       await uploadFile('global/$title', file);
+      Navigator.pop(context);
     });
   }
 
@@ -102,8 +100,6 @@ class _AddFileState extends State<AddFile> {
         backgroundColor: const Color.fromARGB(255, 247, 11, 58),
         onPressed: () async {
           pushData();
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context);
         },
         child: const Icon(Icons.done_outline_rounded),
       ),
