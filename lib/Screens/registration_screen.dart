@@ -6,12 +6,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../components/rounded_button.dart';
 import '../constants.dart';
-import 'HomePage.dart';
+import 'home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static String id = 'registration_screen';
+
+  const RegistrationScreen({super.key});
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }

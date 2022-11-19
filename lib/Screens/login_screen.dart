@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:thenotes/Screens/HomePage.dart';
+import 'package:thenotes/Screens/home_page.dart';
 import 'package:thenotes/Screens/registration_screen.dart';
 import '../components/rounded_button.dart';
 import '../constants.dart';

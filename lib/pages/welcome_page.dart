@@ -9,6 +9,7 @@ import 'package:thenotes/components/storageAPI.dart';
 import '../Screens/pdf_viewer_page.dart';
 
 late User loggedIn;
+List recentlyOpened = [];
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -25,7 +26,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     getCurrentUser();
     super.initState();
-    futureFiles = FirebaseStorage.instance.ref('/').listAll();
+    futureFiles = FirebaseStorage.instance.ref('/global').listAll();
   }
 
   void getCurrentUser() {
@@ -103,6 +104,18 @@ class _WelcomePageState extends State<WelcomePage> {
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.05),
               child: Text(
+                'Recently opened',
+                style: GoogleFonts.barlow(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05),
+              child: Text(
                 'Recently uploaded',
                 style: GoogleFonts.barlow(
                   color: Colors.white,
@@ -112,7 +125,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.27,
+              // height: MediaQuery.of(context).size.height * 0.27,
               child: StreamBuilder<ListResult>(
                 stream: futureFiles.asStream(),
                 builder: (context, snapshot) {
@@ -132,11 +145,10 @@ class _WelcomePageState extends State<WelcomePage> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final url = fileName;
+                                    final url = 'global/$fileName';
                                     final file =
                                         await FirebaseStorageAPI.loadFirebase(
                                             url);
-
                                     openPDF(context, file);
                                   },
                                   child: Image.asset(
