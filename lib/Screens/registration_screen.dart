@@ -10,11 +10,14 @@ import 'home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+String validateError = '';
+
 class RegistrationScreen extends StatefulWidget {
   static String id = 'registration_screen';
 
   const RegistrationScreen({super.key});
   @override
+  // ignore: library_private_types_in_public_api
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
@@ -27,6 +30,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email = '';
   late String password;
   String displayName = '';
+
+  bool validateUser() {
+    if (displayName.length == 0 || password.length == 0 || email.length == 0) {
+      setState(() {
+        validateError = "Enter all the fields";
+      });
+      return false;
+    }
+    if (password.length <= 7) {
+      setState(() {
+        validateError = "Password should contain more than 7 characters";
+      });
+      return false;
+    }
+    if (!email.contains('@')) {
+      setState(() {
+        validateError = "Email format is found to be incorrect";
+      });
+
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +87,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       top: 15,
                     ),
                     child: AutoSizeText(
-                      email,
+                      displayName,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.barlow(
                         textStyle: const TextStyle(
@@ -77,9 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       style: const TextStyle(color: Colors.white),
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
+                        email = value;
                       },
                       decoration:
                           kTextFieldDecoration.copyWith(hintText: 'Email'),
@@ -93,7 +118,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     child: TextField(
                       style: const TextStyle(color: Colors.white),
                       onChanged: (value) {
-                        password = value;
+                        setState(() {
+                          displayName = value;
+                        });
                       },
                       decoration:
                           kTextFieldDecoration.copyWith(hintText: 'Username'),
@@ -106,7 +133,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       style: const TextStyle(color: Colors.white),
                       obscureText: true,
                       onChanged: (value) {
-                        displayName = value;
+                        setState(() {
+                          password = value;
+                        });
                       },
                       decoration:
                           kTextFieldDecoration.copyWith(hintText: 'Password')),
@@ -135,19 +164,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           idToken: googleAuth.idToken,
                         );
 
-                        final exUser = await FirebaseAuth.instance
+                        await FirebaseAuth.instance
                             .signInWithCredential(credential);
-                        if (exUser != null) {
-                          Navigator.pushNamed(context, HomePage.id);
-                        }
+
+                        Navigator.pushNamed(context, HomePage.id);
                       },
                       style: const AuthButtonStyle(
                           iconType: AuthIconType.secondary),
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Center(
+                      child: Text(
+                        validateError,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                  Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.10),
+                        top: MediaQuery.of(context).size.height * 0.07),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -171,23 +208,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   RoundButton(
                     onpress: () async {
-                      try {
-                        setState(() {
-                          showSpinner = true;
-                        });
+                      if (validateUser()) {
+                        try {
+                          setState(() {
+                            showSpinner = true;
+                          });
 
-                        final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
-
-                        if (newUser != null) {
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                          var user = FirebaseAuth.instance.currentUser;
+                          user?.updateDisplayName(displayName);
                           Navigator.pushNamed(context, HomePage.id);
                           setState(() {
                             showSpinner = false;
                           });
+                        } catch (e) {
+                          //
                         }
-                      } catch (e) {
-                        print(e);
                       }
                     },
                   ),

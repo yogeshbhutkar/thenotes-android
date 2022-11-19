@@ -35,7 +35,7 @@ class _AlreadyLoggedState extends State<AlreadyLogged> {
   }
 
   ImageProvider img() {
-    if (loggedIn.photoURL.toString().isNotEmpty) {
+    if (loggedIn.photoURL.toString() != "null") {
       return NetworkImage(loggedIn.photoURL.toString());
     } else {
       return const AssetImage('images/man.png');
@@ -79,9 +79,7 @@ class _AlreadyLoggedState extends State<AlreadyLogged> {
                   height: 20,
                 ),
                 Text(
-                  loggedIn.displayName.toString().isNotEmpty
-                      ? loggedIn.displayName.toString()
-                      : 'User',
+                  loggedIn.displayName.toString(),
                   style: GoogleFonts.barlow(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
