@@ -21,19 +21,33 @@ class _HomePageState extends State<HomePage> {
 
   int _selectedIndex = 1;
 
+  final controller = PageController(initialPage: 1);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.black,
-      body: SafeArea(
-        child: _pages.elementAt(_selectedIndex),
+      body: PageView(
+        controller: controller,
+        onPageChanged: (value) {
+          setState(() {
+            _selectedIndex = value;
+          });
+        },
+        children: [
+          const SearchPage(),
+          const WelcomePage(),
+          const ExplorePage(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (int index) {
           setState(() {
             _selectedIndex = index;
+            controller.animateToPage(_selectedIndex,
+                duration: Duration(milliseconds: 500), curve: Curves.ease);
           });
         },
         backgroundColor: const Color.fromARGB(255, 20, 19, 19),
@@ -61,11 +75,11 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
         backgroundColor: Color.fromARGB(255, 247, 11, 58),
         onPressed: () {
           Navigator.pushNamed(context, 'Upload');
         },
+        child: const Icon(Iconsax.folder_add5),
       ),
     );
   }

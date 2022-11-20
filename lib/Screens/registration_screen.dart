@@ -63,6 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: ListView(
+            physics: const BouncingScrollPhysics(),
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -145,7 +146,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   const Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Divider(
-                      color: Color.fromARGB(255, 245, 138, 159),
+                      color: Color.fromARGB(255, 196, 9, 46),
                     ),
                   ),
                   Padding(

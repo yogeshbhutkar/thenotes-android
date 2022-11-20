@@ -16,16 +16,17 @@ class RoundButton extends StatelessWidget {
       onTap: onpress,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
-        height: 75.0,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(36)),
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFFFC466B).withOpacity(0.85),
-              const Color(0xFF3F5EFB).withOpacity(0.21),
-            ],
-          ),
-        ),
+        height: 60.0,
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            color: Color.fromARGB(255, 189, 6, 42)
+            // gradient: LinearGradient(
+            //   colors: [
+            //     const Color(0xFFFC466B).withOpacity(0.85),
+            //     const Color(0xFF3F5EFB).withOpacity(0.21),
+            //   ],
+            // ),
+            ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

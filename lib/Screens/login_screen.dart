@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: SafeArea(
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Divider(
-                      color: Color.fromARGB(255, 245, 138, 159),
+                      color: Color.fromARGB(255, 196, 9, 46),
                     ),
                   ),
                   Padding(

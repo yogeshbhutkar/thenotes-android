@@ -57,8 +57,9 @@ class _AlreadyLoggedState extends State<AlreadyLogged> {
             child: Text(
               'Log Out',
               style: GoogleFonts.barlow(
-                fontSize: 18,
-              ),
+                  fontSize: 18,
+                  color: const Color.fromARGB(255, 247, 11, 58),
+                  fontWeight: FontWeight.w600),
             ),
           ),
         )

@@ -64,54 +64,51 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 16.0),
-      child: ListView(children: [
+      child: ListView(physics: const BouncingScrollPhysics(), children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  greet(),
-                  style: GoogleFonts.barlow(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: img(),
-                      radius: 20,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      greet(),
+                      style: GoogleFonts.barlow(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w300),
                     ),
-                  ),
+                    Text(
+                      loggedIn.displayName.toString() == "null"
+                          ? "user"
+                          : loggedIn.displayName.toString(),
+                      style: GoogleFonts.barlow(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: img(),
+                          radius: 20,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-            Text(
-              loggedIn.displayName.toString() == "null"
-                  ? "user"
-                  : loggedIn.displayName.toString(),
-              style: GoogleFonts.barlow(
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05),
-              child: Text(
-                'Recently opened',
-                style: GoogleFonts.barlow(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -186,7 +183,10 @@ class _WelcomePageState extends State<WelcomePage> {
                       style: TextStyle(color: Colors.white),
                     );
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Padding(
+                      padding: EdgeInsets.only(top: 60.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
                 },
               ),

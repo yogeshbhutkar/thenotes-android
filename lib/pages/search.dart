@@ -119,7 +119,7 @@ class _SearchPageState extends State<SearchPage> {
                     style: TextStyle(color: Colors.white),
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Text('');
                 }
               },
             ),

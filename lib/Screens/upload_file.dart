@@ -105,7 +105,7 @@ class _AddFileState extends State<AddFile> {
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
         },
-        child: const Icon(Icons.done_outline_rounded),
+        child: const Icon(Icons.done_all_rounded),
       ),
     );
   }
