@@ -15,17 +15,24 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
   @override
   Widget build(BuildContext context) {
     final name = basename(widget.file.path);
+    int lastIndexOfHash = name.lastIndexOf('x8u') + 2;
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(name),
+        centerTitle: true,
+        title: Text(name.substring(
+          lastIndexOfHash + 1,
+          name.length - lastIndexOfHash > 30
+              ? lastIndexOfHash + 30
+              : name.length,
+        )),
       ),
       body: PDFView(
         filePath: widget.file.path,
         onError: (error) {
-          print('this is the error ${error.toString()}');
+          // print('this is the error ${error.toString()}');
         },
       ),
     );
