@@ -24,6 +24,9 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
       ),
       body: PDFView(
         filePath: widget.file.path,
+        onError: (error) {
+          print('this is the error ${error.toString()}');
+        },
       ),
     );
   }
