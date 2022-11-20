@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:thenotes/components/storageAPI.dart';
+import 'package:thenotes/pages/settings.dart';
 
 import '../Screens/pdf_viewer_page.dart';
 
@@ -96,13 +97,18 @@ class _WelcomePageState extends State<WelcomePage> {
                 Column(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, UserProfile.id);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: img(),
-                          radius: 20,
+                        child: Hero(
+                          tag: "hero1",
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: img(),
+                            radius: 20,
+                          ),
                         ),
                       ),
                     ),
