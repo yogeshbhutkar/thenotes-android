@@ -143,7 +143,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         itemBuilder: (context, index) {
                           final file = files[index];
                           String fileName = file.name;
-                          int lastIndexOfHash = fileName.lastIndexOf('#:#') + 2;
+                          int lastIndexOfHash = fileName.lastIndexOf('x8u') + 2;
                           return Padding(
                             padding: const EdgeInsets.only(top: 22),
                             child: Row(

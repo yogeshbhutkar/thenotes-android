@@ -39,7 +39,8 @@ class _AddFileState extends State<AddFile> {
 
   String selectedFileName = '';
   void pushData() async {
-    String title = '${DateTime.now().millisecondsSinceEpoch}#:#${file.name}';
+    var todDate = DateTime.now().millisecondsSinceEpoch;
+    String title = 'f${todDate}x8u${file.name}';
     await uploadFile('global/$title', file);
     Navigator.pop(context);
   }
