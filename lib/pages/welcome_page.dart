@@ -137,6 +137,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         itemBuilder: (context, index) {
                           final file = files[index];
                           String fileName = file.name;
+                          int lastIndexOfHash = fileName.lastIndexOf('#:#') + 2;
                           return Padding(
                             padding: const EdgeInsets.only(top: 22),
                             child: Row(
@@ -147,7 +148,6 @@ class _WelcomePageState extends State<WelcomePage> {
                                     final file =
                                         await FirebaseStorageAPI.loadFirebase(
                                             url);
-
                                     openPDF(context, file);
                                   },
                                   child: Row(
@@ -161,9 +161,12 @@ class _WelcomePageState extends State<WelcomePage> {
                                         width: 24,
                                       ),
                                       Text(
-                                        file.name.length > 40
-                                            ? file.name.substring(0, 40)
-                                            : file.name,
+                                        fileName.substring(
+                                          lastIndexOfHash + 1,
+                                          fileName.length - lastIndexOfHash > 30
+                                              ? lastIndexOfHash + 30
+                                              : fileName.length,
+                                        ),
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),

@@ -1,15 +1,11 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../pages/welcome_page.dart';
 
 const String id = 'Upload';
-
-final firestore = FirebaseFirestore.instance;
 final storageRef = FirebaseStorage.instance.ref();
 
 class AddFile extends StatefulWidget {
@@ -42,14 +38,10 @@ class _AddFileState extends State<AddFile> {
   }
 
   String selectedFileName = '';
-  void pushData() {
-    String title = '${file.name} - ${loggedIn.displayName} - ${DateTime.now()}';
-    firestore.collection('Files').add({
-      'title': 'global/$title',
-    }).then((value) async {
-      await uploadFile('global/$title', file);
-      Navigator.pop(context);
-    });
+  void pushData() async {
+    String title = '${DateTime.now().millisecondsSinceEpoch}#:#${file.name}';
+    await uploadFile('global/$title', file);
+    Navigator.pop(context);
   }
 
   @override
@@ -98,7 +90,7 @@ class _AddFileState extends State<AddFile> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 247, 11, 58),
-        onPressed: () async {
+        onPressed: () {
           pushData();
         },
         child: const Icon(Icons.done_all_rounded),
