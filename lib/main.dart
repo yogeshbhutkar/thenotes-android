@@ -7,6 +7,7 @@ import 'package:thenotes/Screens/home_page.dart';
 import 'package:thenotes/Screens/login_screen.dart';
 import 'package:thenotes/Screens/registration_screen.dart';
 import 'package:thenotes/Screens/upload_file.dart';
+import 'package:thenotes/pages/settings.dart';
 
 bool isSignedIn = false;
 void main() async {
@@ -46,6 +47,7 @@ class NotesApp extends StatelessWidget {
         LoginScreen.id: (context) => const LoginScreen(),
         RegistrationScreen.id: (context) => const RegistrationScreen(),
         AlreadyLogged.id: ((context) => AlreadyLogged()),
+        UserProfile.id: (((context) => UserProfile())),
         'Upload': ((context) => const AddFile()),
       },
     );
