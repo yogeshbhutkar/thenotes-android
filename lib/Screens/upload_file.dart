@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../pages/welcome_page.dart';
+
+late User loggedIn;
 
 const String id = 'Upload';
 final storageRef = FirebaseStorage.instance.ref();
@@ -39,10 +42,29 @@ class _AddFileState extends State<AddFile> {
 
   String selectedFileName = '';
   void pushData() async {
+    String archiveName = "${loggedIn.displayName}:${loggedIn.email}";
     var todDate = DateTime.now().millisecondsSinceEpoch;
     String title = 'f${todDate}x8u${file.name}';
-    await uploadFile('global/$title', file);
+    await uploadFile('$archiveName/$title', file);
     Navigator.pop(context);
+  }
+
+  final _auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    getCurrentUser();
+    super.initState();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        loggedIn = user;
+      }
+    } catch (e) {
+      //
+    }
   }
 
   @override

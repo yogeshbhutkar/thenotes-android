@@ -91,7 +91,7 @@ class _SearchPageState extends State<SearchPage> {
                                   final url = fileName;
                                   final file =
                                       await FirebaseStorageAPI.loadFirebase(
-                                          url);
+                                          url, 'global');
 
                                   openPDF(context, file);
                                 },

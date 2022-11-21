@@ -13,8 +13,8 @@ class FirebaseStorageAPI {
     return file;
   }
 
-  static Future<File> loadFirebase(String url) async {
-    final refPDF = FirebaseStorage.instance.ref('/global').child(url);
+  static Future<File> loadFirebase(String url, String path) async {
+    final refPDF = FirebaseStorage.instance.ref('/$path').child(url);
     final bytes = await refPDF.getData();
     return _storeFile(url, bytes!);
   }

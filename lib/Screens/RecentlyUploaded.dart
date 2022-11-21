@@ -77,7 +77,7 @@ class _RecentUploadState extends State<RecentUpload> {
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount: files.length,
+                          itemCount: files.length > 10 ? 10 : files.length,
                           itemBuilder: (context, index) {
                             final file = files[index];
                             String fileName = file.name;
@@ -92,7 +92,7 @@ class _RecentUploadState extends State<RecentUpload> {
                                       final url = fileName;
                                       final file =
                                           await FirebaseStorageAPI.loadFirebase(
-                                              url);
+                                              url, 'global');
                                       openPDF(context, file);
                                     },
                                     child: Row(

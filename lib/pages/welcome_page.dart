@@ -123,7 +123,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recently uploaded',
+                    'Recently opened',
                     style: GoogleFonts.barlow(
                       color: Colors.white,
                       fontSize: 26,
@@ -172,7 +172,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     final url = fileName;
                                     final file =
                                         await FirebaseStorageAPI.loadFirebase(
-                                            url);
+                                            url, "global");
                                     openPDF(context, file);
                                   },
                                   child: Row(
