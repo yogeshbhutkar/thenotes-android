@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:thenotes/Screens/RecentlyUploaded.dart';
 import 'package:thenotes/Screens/already_logged_in.dart';
 import 'package:thenotes/Screens/home_page.dart';
 import 'package:thenotes/Screens/login_screen.dart';
@@ -47,7 +48,8 @@ class NotesApp extends StatelessWidget {
         LoginScreen.id: (context) => const LoginScreen(),
         RegistrationScreen.id: (context) => const RegistrationScreen(),
         AlreadyLogged.id: ((context) => AlreadyLogged()),
-        UserProfile.id: (((context) => UserProfile())),
+        UserProfile.id: (((context) => const UserProfile())),
+        RecentUpload.id: ((context) => const RecentUpload()),
         'Upload': ((context) => const AddFile()),
       },
     );

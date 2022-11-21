@@ -5,13 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:thenotes/Screens/RecentlyUploaded.dart';
 import 'package:thenotes/components/storageAPI.dart';
 import 'package:thenotes/pages/settings.dart';
 
 import '../Screens/pdf_viewer_page.dart';
 
 late User loggedIn;
-List recentlyOpened = [];
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -119,17 +119,36 @@ class _WelcomePageState extends State<WelcomePage> {
             Padding(
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.05),
-              child: Text(
-                'Recently uploaded',
-                style: GoogleFonts.barlow(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recently uploaded',
+                    style: GoogleFonts.barlow(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, RecentUpload.id),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: Text(
+                        'MORE',
+                        style: GoogleFonts.barlow(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
             SizedBox(
-              // height: MediaQuery.of(context).size.height * 0.27,
+              height: MediaQuery.of(context).size.height * 0.25,
               child: StreamBuilder<ListResult>(
                 stream: futureFiles.asStream(),
                 builder: (context, snapshot) {
@@ -139,7 +158,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: files.length,
+                        itemCount: 3,
                         itemBuilder: (context, index) {
                           final file = files[index];
                           String fileName = file.name;
@@ -199,7 +218,18 @@ class _WelcomePageState extends State<WelcomePage> {
                   }
                 },
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                'Top Archives',
+                style: GoogleFonts.barlow(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ],
         ),
       ]),
