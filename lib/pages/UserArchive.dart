@@ -1,12 +1,18 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:thenotes/pages/settings.dart';
 import '../Screens/pdf_viewer_page.dart';
 import '../components/storageAPI.dart';
+
+late User loggedIn;
+bool liked = false;
+int likedCount = 0;
 
 class UserArchive extends StatefulWidget {
   static String id = "userarchive";
@@ -18,11 +24,49 @@ class UserArchive extends StatefulWidget {
 }
 
 class _UserArchiveState extends State<UserArchive> {
+  final _auth = FirebaseAuth.instance;
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        loggedIn = user;
+      }
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<ImageProvider> img() async {
+    var imageURL;
+    var collection = FirebaseFirestore.instance.collection('displayImages');
+    var querySnapshot = await collection.get();
+    for (var queryDocumentSnapshot in querySnapshot.docs) {
+      Map<String, dynamic> data = queryDocumentSnapshot.data();
+      imageURL = data['imageURL'];
+      var userMail = data['userMail'];
+      if (userMail == widget.dName.split(":")[1]) {
+        break;
+      }
+    }
+    return NetworkImage(imageURL);
+  }
+
+  bool checkCurrentUser() {
+    if (widget.dName.split(":")[1] == loggedIn.email) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   late Future<ListResult> futureFiles;
   late Reference storageRef;
   @override
   void initState() {
     super.initState();
+
+    getCurrentUser();
     futureFiles = FirebaseStorage.instance.ref('/${widget.dName}').listAll();
   }
 
@@ -35,12 +79,69 @@ class _UserArchiveState extends State<UserArchive> {
         padding: EdgeInsets.only(
             left: 16.0, top: MediaQuery.of(context).size.height * 0.04),
         child: ListView(children: [
-          Text(
-            '$name\'s Archive',
-            style: GoogleFonts.barlow(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
+          FutureBuilder(
+            future: img(),
+            builder: (context, snapshot) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.18,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: CircleAvatar(
+                    radius: 75,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: snapshot.data,
+                  ),
+                ),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Center(
+              child: Text(
+                '$name\'s Archive',
+                style: GoogleFonts.barlow(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      liked = !liked;
+                      if (liked == true) {
+                        likedCount--;
+                      } else {
+                        likedCount++;
+                      }
+                    });
+                  },
+                  child: Icon(
+                    liked ? Iconsax.like : Iconsax.like5,
+                    color: Color.fromARGB(255, 247, 11, 58),
+                    size: 40,
+                  ),
+                ),
+                const SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  '$likedCount',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(
@@ -65,6 +166,7 @@ class _UserArchiveState extends State<UserArchive> {
                           return Padding(
                             padding: const EdgeInsets.only(top: 22),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 GestureDetector(
                                   onTap: () async {
@@ -100,6 +202,27 @@ class _UserArchiveState extends State<UserArchive> {
                                 const SizedBox(
                                   width: 24,
                                 ),
+                                checkCurrentUser()
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16.0),
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            final storageRef =
+                                                FirebaseStorage.instance.ref();
+                                            final desertRef = storageRef.child(
+                                                widget.dName + "/" + fileName);
+                                            await desertRef.delete();
+                                          },
+                                          child: const Icon(
+                                            size: 25,
+                                            Icons.delete_rounded,
+                                            color: Color.fromARGB(
+                                                255, 247, 11, 58),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           );

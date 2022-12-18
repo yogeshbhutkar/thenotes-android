@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 // ignore: file_names
 import 'dart:io';
@@ -158,7 +160,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: 3,
+                        itemCount: min(snapshot.data!.items.length, 3),
                         itemBuilder: (context, index) {
                           final file = files[index];
                           String fileName = file.name;

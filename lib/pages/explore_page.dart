@@ -7,7 +7,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:thenotes/pages/UserArchive.dart';
 
 import '../Screens/pdf_viewer_page.dart';
-import '../components/storageAPI.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -69,6 +68,7 @@ class _ExplorePageState extends State<ExplorePage> {
                         return Padding(
                           padding: const EdgeInsets.only(top: 22),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
                                 onTap: () {

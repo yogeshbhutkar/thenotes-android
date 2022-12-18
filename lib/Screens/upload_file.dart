@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../pages/welcome_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 late User loggedIn;
 
@@ -19,6 +19,7 @@ class AddFile extends StatefulWidget {
 }
 
 class _AddFileState extends State<AddFile> {
+  final _firestore = FirebaseFirestore.instance;
   late PlatformFile file;
   late UploadTask uploadTask;
   bool showLoading = false;
@@ -46,6 +47,10 @@ class _AddFileState extends State<AddFile> {
     var todDate = DateTime.now().millisecondsSinceEpoch;
     String title = 'f${todDate}x8u${file.name}';
     await uploadFile('$archiveName/$title', file);
+    _firestore.collection('displayImages').add({
+      'imageURL': loggedIn.photoURL,
+      'userMail': loggedIn.email,
+    });
     Navigator.pop(context);
   }
 
