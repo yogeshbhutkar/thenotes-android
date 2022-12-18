@@ -11,8 +11,11 @@ import '../Screens/pdf_viewer_page.dart';
 import '../components/storageAPI.dart';
 
 late User loggedIn;
+
+final storageRef = FirebaseStorage.instance.ref();
 bool liked = false;
 int likedCount = 0;
+int prevLikesCount = 0;
 
 class UserArchive extends StatefulWidget {
   static String id = "userarchive";
@@ -25,6 +28,7 @@ class UserArchive extends StatefulWidget {
 
 class _UserArchiveState extends State<UserArchive> {
   final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   void getCurrentUser() {
     try {
@@ -62,10 +66,22 @@ class _UserArchiveState extends State<UserArchive> {
 
   late Future<ListResult> futureFiles;
   late Reference storageRef;
+
+  void getLikesData() async {
+    var data = await FirebaseFirestore.instance
+        .collection('likes')
+        .doc(widget.dName.split(":")[1])
+        .snapshots()
+        .first;
+    setState(() {
+      prevLikesCount = data.get('count');
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+    getLikesData();
     getCurrentUser();
     futureFiles = FirebaseStorage.instance.ref('/${widget.dName}').listAll();
   }
@@ -116,16 +132,25 @@ class _UserArchiveState extends State<UserArchive> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
+                      String uploaderMail = widget.dName.split(":")[1];
                       liked = !liked;
                       if (liked == true) {
-                        likedCount--;
-                      } else {
                         likedCount++;
+                        _firestore.collection('likes').doc(uploaderMail).set(
+                          {'count': ++prevLikesCount},
+                          SetOptions(merge: true),
+                        );
+                      } else {
+                        likedCount--;
+                        _firestore.collection('likes').doc(uploaderMail).set(
+                          {'count': --prevLikesCount},
+                          SetOptions(merge: true),
+                        );
                       }
                     });
                   },
                   child: Icon(
-                    liked ? Iconsax.like : Iconsax.like5,
+                    liked ? Iconsax.like5 : Iconsax.like,
                     color: Color.fromARGB(255, 247, 11, 58),
                     size: 40,
                   ),
@@ -134,7 +159,7 @@ class _UserArchiveState extends State<UserArchive> {
                   width: 8.0,
                 ),
                 Text(
-                  '$likedCount',
+                  '$prevLikesCount',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,

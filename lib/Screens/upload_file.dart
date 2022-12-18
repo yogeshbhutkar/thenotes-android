@@ -51,6 +51,10 @@ class _AddFileState extends State<AddFile> {
       'imageURL': loggedIn.photoURL,
       'userMail': loggedIn.email,
     });
+    _firestore.collection('likes').doc(loggedIn.email).set(
+      {'count': 0},
+      SetOptions(merge: true),
+    );
     Navigator.pop(context);
   }
 
