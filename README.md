@@ -1,16 +1,12 @@
-# thenotes
+# TheNotes Android
 
-A new Flutter project.
+A Flutter project to share your notes amongst other users of the app.
 
-## Getting Started
+To quickly try out the app, visit the url : https://drive.google.com/file/d/1hhtJshNTiUZSg418VPi6Q82yGXC7t8O7/view?usp=sharing
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots.
+https://i.postimg.cc/RCd9hdqD/AllFiles.jpg
+https://i.postimg.cc/jSwr8rcp/Auth.jpg
+https://i.postimg.cc/xTF2ydvG/HomePage.jpg
+https://i.postimg.cc/KYth2rdQ/Pdf-Viewer.jpg
+https://i.postimg.cc/Nj3vSPP5/Profile.jpg
